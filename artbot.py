@@ -72,11 +72,30 @@ class ArtBot:
     pass
 
   def __scrape_iphoto_album(self, iphoto_url, output_folder):
-    # self.driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
     print(f"Running __scrape_iphoto_album()...")
     self.driver.get(iphoto_url)
     sleep(3)
-    print(self.driver.title)
+    print(f"Selenium successfully reached {self.driver.title}...")
+    images = self.driver.find_elements_by_class_name("x-stream-photo-group-blocks-container-view")
+    print(f"Running get_image() for {len(images)} found images...")
+
+    for i in range(len(images)):
+      images[i].click()
+      print(f"Retreiving image {i}...")
+      sleep(3)
+      current_image = self.driver.find_element_by_tag_name("img")
+      current_image_source = current_image.get_attribute("src")
+      current_image_text_element = self.driver.find_element_by_class_name("main")
+      current_image_text = current_image_text_element.get_attribute("innerText")
+      print(f"Processing image associated with '{current_image_text}'...")
+      self.images_dict[i] = { "src": current_image_source, "text": current_image_text }
+      urllib.request.urlretrieve(current_image_source, f"input_images/{current_image_text}.png")
+      self.driver.back()
+      sleep(3)
+      images = self.driver.find_elements_by_class_name("x-stream-photo-group-blocks-container-view")
+      print(self.images_dict)
+
+
 
   def __generate_collage(self, source_folder, output_folder):
     pass
