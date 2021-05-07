@@ -16,36 +16,50 @@
 #     Initiates background process to make post at that time
 #     Updates static memory JSON file
 #     Commits to git history and pushes to github
-
+from selenium import webdriver
+from datetime import date
+from time import sleep
+import urllib.request
+import json
+import sys
+import os
 
 class ArtBot:
   def __init__(self):
-    # selenium options
-    user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:86.0) Gecko/20100101 Firefox/86.0"
-
-    self.options = webdriver.ChromeOptions()
-    self.options.headless = True
-    self.options.add_argument(f'user-agent={user_agent}')
-    self.options.add_argument("--window-size=1920,1080")
-    self.options.add_argument('--ignore-certificate-errors')
-    self.options.add_argument('--allow-running-insecure-content')
-    self.options.add_argument("--disable-extensions")
-    self.options.add_argument("--proxy-server='direct://'")
-    self.options.add_argument("--proxy-bypass-list=*")
-    self.options.add_argument("--start-maximized")
-    self.options.add_argument('--disable-gpu')
-    self.options.add_argument('--disable-dev-shm-usage')
-    self.options.add_argument('--no-sandbox')
-    self.options.add_argument('--disable-dev-shm-usage')
-    self.driver = None
-    # self.driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
-
+    # load config settings
+    self.settings = json.load(open('./config.json', 'r'))
+    self.is_scraper_on = self.settings['scraper']['is_on']
+    
     # selenium driver
+    self.driver = None
+    if self.is_scraper_on: 
+      self.user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:86.0) Gecko/20100101 Firefox/86.0"
+      self.options = webdriver.ChromeOptions()
+      self.options.headless = True
+      self.options.add_argument(f'user-agent={self.user_agent}')
+      self.options.add_argument("--window-size=1920,1080")
+      self.options.add_argument('--ignore-certificate-errors')
+      self.options.add_argument('--allow-running-insecure-content')
+      self.options.add_argument("--disable-extensions")
+      self.options.add_argument("--proxy-server='direct://'")
+      self.options.add_argument("--proxy-bypass-list=*")
+      self.options.add_argument("--start-maximized")
+      self.options.add_argument('--disable-gpu')
+      self.options.add_argument('--disable-dev-shm-usage')
+      self.options.add_argument('--no-sandbox')
+      self.options.add_argument('--disable-dev-shm-usage')
+      self.driver = None
+      self.driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+
     # instapy 
+
+    # test code
+    print(self.is_scraper_on)
     pass
 
   def generate_collages(self):
     # Scrapes iCloud album with studio images
+    self.__scrape_iphoto_album("iphoto_url", "./files/output_images")
     # Generates 25 new collages in local directory
     # Maybe deletes 25 old collages first and keeps count at 100 (?)
     # Updates static html & markdown files for github pages page
@@ -88,3 +102,5 @@ class ArtBot:
   def __schedule_post(self, text, image_path, desired_datetime):
     # starts daemon or time-triggered event for next post
     pass
+
+a = ArtBot()
