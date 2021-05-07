@@ -1,5 +1,7 @@
 {
   "scraper": {
-    "is_on": true
+    "is_on": true,
+    "iphoto_url_images": "https://www.icloud.com/sharedalbum/#B0o5oqs3q7vYSt",
+    "iphoto_url_collages": ""
   }
 }

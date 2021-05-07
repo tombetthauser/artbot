@@ -29,29 +29,22 @@ class ArtBot:
     # load config settings
     self.settings = json.load(open('./config.json', 'r'))
     self.is_scraper_on = self.settings['scraper']['is_on']
+    self.iphoto_url_images = self.settings['scraper']['iphoto_url_images']
+
+    self.images_dict = {}
     
     # selenium driver
     self.driver = None
     if self.is_scraper_on: 
-      self.user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:86.0) Gecko/20100101 Firefox/86.0"
       self.options = webdriver.ChromeOptions()
+      self.options_arguments = (f'user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:86.0) Gecko/20100101 Firefox/86.0"', "--window-size=1920,1080", '--ignore-certificate-errors', '--allow-running-insecure-content', "--disable-extensions", "--proxy-server='direct://'", "--proxy-bypass-list=*", "--start-maximized", '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox', '--disable-dev-shm-usage')
+      for argument in self.options_arguments:
+        self.options.add_argument(argument)
       self.options.headless = True
-      self.options.add_argument(f'user-agent={self.user_agent}')
-      self.options.add_argument("--window-size=1920,1080")
-      self.options.add_argument('--ignore-certificate-errors')
-      self.options.add_argument('--allow-running-insecure-content')
-      self.options.add_argument("--disable-extensions")
-      self.options.add_argument("--proxy-server='direct://'")
-      self.options.add_argument("--proxy-bypass-list=*")
-      self.options.add_argument("--start-maximized")
-      self.options.add_argument('--disable-gpu')
-      self.options.add_argument('--disable-dev-shm-usage')
-      self.options.add_argument('--no-sandbox')
-      self.options.add_argument('--disable-dev-shm-usage')
       self.driver = None
       self.driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
-
-    # instapy 
+    
+    # instapy
 
     # test code
     print(self.is_scraper_on)
@@ -59,7 +52,7 @@ class ArtBot:
 
   def generate_collages(self):
     # Scrapes iCloud album with studio images
-    self.__scrape_iphoto_album("iphoto_url", "./files/output_images")
+    self.__scrape_iphoto_album(self.iphoto_url_images, "./files/output_images")
     # Generates 25 new collages in local directory
     # Maybe deletes 25 old collages first and keeps count at 100 (?)
     # Updates static html & markdown files for github pages page
@@ -79,7 +72,11 @@ class ArtBot:
     pass
 
   def __scrape_iphoto_album(self, iphoto_url, output_folder):
-    pass
+    # self.driver = webdriver.Chrome(executable_path="./chromedriver.exe", options=self.options)
+    print(f"Running __scrape_iphoto_album()...")
+    self.driver.get(iphoto_url)
+    sleep(3)
+    print(self.driver.title)
 
   def __generate_collage(self, source_folder, output_folder):
     pass
@@ -104,3 +101,4 @@ class ArtBot:
     pass
 
 a = ArtBot()
+a.generate_collages()
