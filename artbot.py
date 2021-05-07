@@ -32,6 +32,7 @@ class ArtBot:
     self.iphoto_url_images = self.settings['scraper']['iphoto_url_images']
 
     self.images_dict = {}
+    self.demo_images_dict = {0: {'src': 'https://cvws.icloud-content.com/S/AbjDnPT4gkojdj-EESS_38NzCtph/IMG_0008.JPG?o=AtTsKIACA676F92HIvwuaIrdCQP1VHBHAVzBs_jREhJN&v=1&z=https%3A%2F%2Fp50-content.icloud.com%3A443&x=1&a=CAog7Jw2FcGJ96hbUrDIRUm5t_AKApC3HaH5uXxEFFTg0LESZRDWwpHPkS8Y1tmk1JEvIgEAUgRzCtphaiX_h8AOBGRvWNOcCBXzmk84awu8JNT0p_KQtYd81fSojO9_VBT6ciVLsCZvbe5Pe1f2w9bshKLWlPCIwAc4_gz0KdDL3bbwOdHTdu8x&e=1619647868&r=7f0f76d8-ac99-4646-8d5b-f07c7d816c7f-12&s=7u28rh6ZHDsrjOuOg5OK1cjIjmk', 'text': 'recess time...'}, 1: {'src': 'https://cvws.icloud-content.com/S/Ab2Rgwdj3BOyQCD6_z3tgJnXCW9f/IMG_0007.JPG?o=AglTg-q9ipEv7OgfwBPozzhdRvkhWqGTNsM1iwU7I1Gf&v=1&z=https%3A%2F%2Fp50-content.icloud.com%3A443&x=1&a=CAogSSZE1phk572edS-DdhZmLzJ6rQdccYwmdVUWtTbzpgcSZRDTm5LPkS8Y07Kl1JEvIgEAUgTXCW9faiUk6NLCWSIa0V67UMUZhtGukm1uNvqz6ZnuonrHokrQ39Id5MF1ciWj5jybFBDDXNUOIb6pbiYX131OcLFSsLmwA1kz-vyFZIOCSUHB&e=1619647879&r=3d22c009-eb9c-4e88-b767-abc17ca0a53d-13&s=h-HygGu61nQsyHoHnyl6pIqY2KU', 'text': 'countin grooves...'}, 2: {'src': 'https://cvws.icloud-content.com/S/AZ2UbOfx7JNXsokq4V1KmmypyA1y/IMG_0005.JPG?o=AofSUiq1O4WHb4p8lU2_h6IjxPbTjVORR82X1-HybANJ&v=1&z=https%3A%2F%2Fp50-content.icloud.com%3A443&x=1&a=CAogfvhwH8x72HLi4LOLWvVrz8jGRqm0VB7dfZn1jsmkh6YSZRDM6pLPkS8YzIGm1JEvIgEAUgSpyA1yaiU1TKOypx91QppNZtahBMm0uhR2o_8vXqW_uXV2MtIJ4qT1WjmFciUmQ3bHrccU_F6XLt9fLCiS2JWoAI-UcQkhKiDWUXFBcSPowASp&e=1619647889&r=4316c4d9-498a-46b7-9c88-10b0e2ef6620-9&s=e8FGPFz-oid2J_81KhdzQtrj1LE', 'text': 'finally ready for detailing...'}}
     
     # selenium driver
     self.driver = None
@@ -51,9 +52,11 @@ class ArtBot:
     pass
 
   def generate_collages(self):
-    # Scrapes iCloud album with studio images
+    # Scrapes iCloud album with studio images ✅
     self.__scrape_iphoto_album(self.iphoto_url_images, "./files/output_images")
     # Generates 25 new collages in local directory
+    for i in range(25):
+      self.__generate_collage()
     # Maybe deletes 25 old collages first and keeps count at 100 (?)
     # Updates static html & markdown files for github pages page
     # Commits to git history and pushes to github
@@ -71,7 +74,7 @@ class ArtBot:
     # Commits to git history and pushes to github
     pass
 
-  def __scrape_iphoto_album(self, iphoto_url, output_folder):
+  def __scrape_iphoto_album(self, iphoto_url):
     print(f"Running __scrape_iphoto_album()...")
     self.driver.get(iphoto_url)
     sleep(3)
@@ -97,8 +100,8 @@ class ArtBot:
 
 
 
-  def __generate_collage(self, source_folder, output_folder):
-    pass
+  def __generate_collage(self):
+    # use or import shell script 👈 👁
 
   def __instagram_post(self, username, password, source_folder):
     pass
