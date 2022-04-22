@@ -1,2 +1,4 @@
 chromedriver.exe
 input_images/
+*/*.png
+*/*.jpg

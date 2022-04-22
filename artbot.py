@@ -53,8 +53,8 @@ class ArtBot:
     # self.__scrape_iphoto_album(self.iphoto_url_images, "./files/output_images")
     
     # Generates 25 new collages in local directory
-    # for i in range(25):
-    self.__generate_collage()
+    for i in range(1):
+      self.__generate_collage()
 
     # Maybe deletes 25 old collages first and keeps count at 100 (?)
     # Updates static html & markdown files for github pages page
