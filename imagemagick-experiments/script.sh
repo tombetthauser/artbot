@@ -19,3 +19,6 @@ magick in.png -alpha off -auto-threshold otsu out.png
 convert in.png -colorspace gray out.png
 
 convert in.png -alpha set -channel RGB -fill red -opaque black out.gif
+
+# edge trace
+convert A_image.gif -colorspace gray -edge 1 -fuzz 1% -trim +repage A_image_edge.gif
